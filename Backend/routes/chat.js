@@ -1,9 +1,9 @@
 import express from "express";
 import Thread from "../models/Thread.js";
 import getGrokAPIResponse from "../utils/grok.js";  // or grok.js
+import requireAuth from "../middleware/requireAuth.js";
 const router = express.Router();
 router.use(requireAuth);
-import requireAuth from "../middleware/requireAuth.js";
 
 //test
 router.post("/test", async (req, res) => {
