@@ -17,7 +17,7 @@ function Sidebar() {
 
     const getAllThreads = async () => {
         try {
-const response = await fetch("http://localhost:8080/api/thread", { credentials: "include" });            const res = await response.json();
+const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thread`, { credentials: "include" });            const res = await response.json();
             const filteredData = res.map(thread => ({ threadId: thread.threadId, title: thread.title }));
             console.log(filteredData);
             setAllThreads(filteredData);
@@ -43,7 +43,7 @@ const response = await fetch("http://localhost:8080/api/thread", { credentials: 
         setNewChat(false);
 
         try {
-const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`, { credentials: "include" });            const messages = await response.json();
+const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thread/${newThreadId}`, { credentials: "include" });            const messages = await response.json();
             setPrevChats(messages || []);
             setReply(null);
         } catch (err) {
@@ -53,7 +53,7 @@ const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`, 
 
     const deleteThread = async (threadId) => {
         try {
-await fetch(`http://localhost:8080/api/thread/${threadId}`, { method: "DELETE", credentials: "include" });            setAllThreads(prev => prev.filter(t => t.threadId !== threadId));
+await fetch(`${import.meta.env.VITE_API_URL}/api/thread/${threadId}`, { method: "DELETE", credentials: "include" });            setAllThreads(prev => prev.filter(t => t.threadId !== threadId));
 
             if (threadId === currThreadId) {
                 createNewChat();

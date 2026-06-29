@@ -39,13 +39,12 @@ function ChatWindow() {
         };
 
         try {
-            const response = await fetch("http://localhost:8080/api/chat", options);
-            const res = await response.json();
+const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, options);            const res = await response.json();
 
             setReply(res.reply);
 
             // Refresh threads so a brand-new chat shows up in the sidebar immediately
-            fetch("http://localhost:8080/api/thread", { credentials: "include" })
+            fetch(`${import.meta.env.VITE_API_URL}/api/thread`, { credentials: "include" })
                 .then(r => r.json())
                 .then(threads => {
                     if (!Array.isArray(threads)) return; // not logged in yet, or an error came back
