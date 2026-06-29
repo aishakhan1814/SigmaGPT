@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWindow.jsx";
 import Auth from "./Auth.jsx";
 import {MyContext} from "./MyContext.jsx";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {v1 as uuidv1} from "uuid";
 import { useAuth } from "./AuthContext.jsx";
 
@@ -15,6 +15,18 @@ function App() {
   const [prevChats, setPrevChats] = useState([]); //stores all chats of curr threads
   const [newChat, setNewChat] = useState(true);
   const [allThreads, setAllThreads] = useState([]);
+
+  useEffect(() => {
+    // Whenever the logged-in user changes (login or logout), wipe any
+    // leftover chat state from the previous session so it can't leak
+    // into the next person's view.
+    setPrompt("");
+    setReply(null);
+    setPrevChats([]);
+    setNewChat(true);
+    setAllThreads([]);
+    setCurrThreadId(uuidv1());
+  }, [user]);
 
   const providerValues = {
     prompt, setPrompt,
